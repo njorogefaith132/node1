@@ -3,7 +3,7 @@ const app = express();
 app.use(express.json())
 
 const port = 8080;
-const todos = {
+let todos = {
     items:[
         {
             id: 1,
@@ -68,6 +68,29 @@ app.get('/:id', function (req, res) {
         return item.id === parseInt(id)
     })
     return res.send(todo);
+})
+
+app.put('/:id', function (req, res) {
+    const { id } = req.params;
+     todos.items = todos.items.map(function (item) {
+        if(item.id === parseInt(id)){
+            return req.body;
+        }else{
+            return item;
+        }
+    })
+    return res.send(todos);
+})
+
+app.delete('/:id', function (req, res) {
+    const { id } = req.params;
+    todos.items = todos.items.filter(function (item){
+
+        return item.id !== parseInt(id)
+       
+    } )
+     
+    return res.send(todos);
 })
 
 app.post('/', function (req, res){
